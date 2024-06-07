@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: grafana
+        tier: frontend
+    spec:
+      containers:
+      - image: grafana/grafana:latest
+        name: grafana
+        env:
+        - name: GF_SECURITY_ADMIN_USER
+          value: admin
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          value: admin
+        ports:
+        - containerPort: 3000
+          name: grafana
+        volumeMounts:
+        - name: grafana-persistent-storage
+          mountPath: /var/lib/grafana
+      volumes:
+      - name: grafana-persistent-storage
+        persistentVolumeClaim:
+          claimName: grafana-pvc
