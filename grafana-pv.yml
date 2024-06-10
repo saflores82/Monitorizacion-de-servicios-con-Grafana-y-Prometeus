@@ -3,10 +3,9 @@ kind: PersistentVolume
 metadata:
   name: grafana-pv
 spec:
-  storageClassName: ""
+  capacity:
+    storage: 1Gi
   accessModes:
     - ReadWriteOnce
-  capacity:
-    storage: 5Gi
   hostPath:
-    path: /mnt/data/grafana
+    path: "/mnt/data/grafana"
